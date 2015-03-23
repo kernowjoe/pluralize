@@ -1,5 +1,7 @@
 # Pluralize
 
+Angular adaption of the great work by @blakeembrey
+
 [![NPM version][npm-image]][npm-url]
 [![Build status][travis-image]][travis-url]
 [![Test coverage][coveralls-image]][coveralls-url]
@@ -13,19 +15,25 @@ npm install pluralize --save
 bower install pluralize --save
 ```
 
-### Node
+### Angular
 
 ```javascript
-var pluralize = require('pluralize');
+
+angular.module('MyApp', ['jp.pluralise']);
+
+angular.module('MyApp')
+  .controller('MyController',ctrl)
+
+  ctrl.$inject = ['pluralise'];
+
+  function ctrl(pluralise) {
+
+    // use the pluraliser
+
+
+  }
 ```
 
-### AMD
-
-```javascript
-define(function (require, exports, module) {
-  var pluralize = require('pluralize');
-});
-```
 
 ### `<script>` tag
 
@@ -36,27 +44,8 @@ define(function (require, exports, module) {
 ## Usage
 
 ```javascript
-pluralize('test'); //=> "tests"
-pluralize('test', 1); //=> "test"
-pluralize('test', 5); //=> "tests"
-pluralize('test', 1, true); //=> "1 test"
-pluralize('test', 5, true); //=> "5 tests"
-
-pluralize.plural('regex'); //=> "regexes"
-pluralize.addPluralRule(/gex$/i, 'gexii');
-pluralize.plural('regex'); //=> "regexii"
-
-pluralize.plural('singles', 1); //=> "single"
-pluralize.addSingularRule(/singles$/i, 'singular');
-pluralize.plural('singles', 1); //=> "singular"
-
-pluralize.plural('irregular'); //=> "irregulars"
-pluralize.addIrregularRule('irregular', 'regular');
-pluralize.plural('irregular'); //=> "regular"
-
-pluralize.plural('paper'); //=> "papers"
-pluralize.addUncountableRule('paper');
-pluralize.plural('paper'); //=> "paper"
+pluralise.pluralise('fox'); //=> "foxes"
+pluralise.singularise('foxes'); //=> "fox"
 ```
 
 ## License

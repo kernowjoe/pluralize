@@ -1,18 +1,21 @@
-(function (root, pluralize) {
-  /* istanbul ignore else */
-  if (typeof require === 'function' && typeof exports === 'object' && typeof module === 'object') {
-    // Node.
-    module.exports = pluralize();
-  } else if (typeof define === 'function' && define.amd) {
-    // AMD, registers as an anonymous module.
-    define(function () {
-      return pluralize();
-    });
-  } else {
-    // Browser global.
-    root.pluralize = pluralize();
+(function() {
+
+  angular.module('jp.pluralise')
+      .factory('pluralise', pluralise);
+
+  function pluralise() {
+
+    return {
+      pluralise : pluralize,
+      singularise : singularize
+
+    }
+
+    function singularize(string) {
+
+      return pluralize(string, 1);
+    }
   }
-})(this, function () {
   // Rule storage - pluralize and singularize need to be run sequentially,
   // while other rules can be optimized using an object for instant lookups.
   var pluralRules      = [];
@@ -155,7 +158,7 @@
    */
   function pluralize (word, count, inclusive) {
     var pluralized = count === 1 ?
-      pluralize.singular(word) : pluralize.plural(word);
+                     pluralize.singular(word) : pluralize.plural(word);
 
     return (inclusive ? count + ' ' : '') + pluralized;
   }
@@ -166,7 +169,7 @@
    * @type {Function}
    */
   pluralize.plural = replaceWord(
-    irregularSingles, irregularPlurals, pluralRules
+      irregularSingles, irregularPlurals, pluralRules
   );
 
   /**
@@ -175,7 +178,7 @@
    * @type {Function}
    */
   pluralize.singular = replaceWord(
-    irregularPlurals, irregularSingles, singularRules
+      irregularPlurals, irregularSingles, singularRules
   );
 
   /**
@@ -281,8 +284,8 @@
     ['pickaxe', 'pickaxes'],
     ['whiskey', 'whiskies']
   ].forEach(function (rule) {
-    return pluralize.addIrregularRule(rule[0], rule[1]);
-  });
+        return pluralize.addIrregularRule(rule[0], rule[1]);
+      });
 
   /**
    * Pluralization rules.
@@ -312,8 +315,8 @@
     [/eaux$/i, '$0'],
     [/m[ae]n$/i, 'men']
   ].forEach(function (rule) {
-    return pluralize.addPluralRule(rule[0], rule[1]);
-  });
+        return pluralize.addPluralRule(rule[0], rule[1]);
+      });
 
   /**
    * Singularization rules.
@@ -346,8 +349,8 @@
     [/(eau)x?$/i, '$1'],
     [/men$/i, 'man']
   ].forEach(function (rule) {
-    return pluralize.addSingularRule(rule[0], rule[1]);
-  });
+        return pluralize.addSingularRule(rule[0], rule[1]);
+      });
 
   /**
    * Uncountable rules.
@@ -422,5 +425,4 @@
     /[^aeiou]ese$/i // "chinese", "japanese"
   ].forEach(pluralize.addUncountableRule);
 
-  return pluralize;
-});
+})();
